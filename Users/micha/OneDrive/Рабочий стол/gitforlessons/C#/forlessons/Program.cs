@@ -1,54 +1,46 @@
-﻿using System;
+﻿int rows = new Random().Next(2, 9);
+int columns = new Random().Next(2, 9);
 
-class Program
+int[,] Array = new int[rows, columns];
+
+int[] counter = new int[10];
+
+int[,] CreateArray(int[,] array, int rows, int columns)
 {
-    static void Main()
+    for (int i = 0; i < rows; i++)
     {
-        // Размеры массива
-        int rows = 3;
-        int columns = 4;
-
-        // Инициализация генератора случайных чисел
-        Random random = new Random();
-
-        // Создание и заполнение двумерного массива случайными числами
-        int[,] array = new int[rows, columns];
-        for (int i = 0; i < rows; i++)
+        for (int j = 0; j < columns; j++)
         {
-            for (int j = 0; j < columns; j++)
-            {
-                array[i, j] = random.Next(1, 10); // Генерируем случайное число от 1 до 9
-            }
+            array[i, j] = new Random().Next(0, 10);
+            int element = array[i, j];
+            counter[element]++;
         }
+    }
+    return array;
+}
 
-        // Вывод созданного массива (для наглядности)
-        Console.WriteLine("Сгенерированный массив:");
-        for (int i = 0; i < rows; i++)
+void PrintArray(int[,] array, int rows, int columns)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
         {
-            for (int j = 0; j < columns; j++)
-            {
-                Console.Write(array[i, j] + " ");
-            }
-            Console.WriteLine();
+            Console.Write(array[i, j] + "\t ");
         }
-
-        // Вычисление суммы элементов на главной диагонали и вывод каждого значения
-        int sumDiagonal = 0;
-        Console.Write("Сумма элементов главной диагонали: ");
-        for (int i = 0; i < Math.Min(rows, columns); i++)
-        {
-            int value = array[i, i];
-            sumDiagonal += value;
-            Console.Write(value);
-        }
-        for (int j = 0; j < Math.Min(rows, columns) - 1; j++)
-        {
-
-            Console.Write("+");
-        }
-        
         Console.WriteLine();
+    }
+    Console.WriteLine();
+}
 
-       Console.Write("= " + sumDiagonal);
+CreateArray(Array, rows, columns);
+PrintArray(Array, rows, columns);
+
+Console.WriteLine("Частотный словарь элементов двумерного массива:");
+for (int element = 0; element < counter.Length; element++)
+{
+    int frequency = counter[element];
+    if (frequency > 0)
+    {
+        Console.WriteLine($"Элемент {element} встречается {frequency} раза");
     }
 }
